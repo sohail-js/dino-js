@@ -10,12 +10,11 @@ Most famous chrome's offline dino game
 [x] Score & highscore  
 
 #### Priority - 1
-[x] Random plants generator (random width)  
-[ ] Cool styles (sky, dino, plants, scores)  
+[x] Random obstacles generator (random width)  
+[x] Cool styles (sky, dino, obstacles, scores)  
 [ ] Jump animation  
-[ ] Restart button when dead  
 
 #### Priority - 2
 [ ] Birds  
-[ ] Player crouch  
 [ ] Difficulty level (increase speed)  
+[ ] Restart button when dead

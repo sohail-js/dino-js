@@ -3,12 +3,11 @@ const scoreElement = document.querySelector('.score-card .score');
 const highScoreElement = document.querySelector('.score-card .high-score');
 const gameContainerElement = document.querySelector('.game-container');
 
-const OBSTACLE_HEIGHT = 50;
 const OBSTACLES = [
-    { type: 'plant', size: 'xs', width: 30 },
-    { type: 'plant', size: 's', width: 60 },
-    { type: 'plant', size: 'm', width: 90 },
-    { type: 'plant', size: 'l', width: 120 },
+    { type: 'obstacle', size: 'xs', width: 30, height: 70 },
+    { type: 'obstacle', size: 's', width: 60, height: 80 },
+    { type: 'obstacle', size: 'm', width: 90, height: 90 },
+    { type: 'obstacle', size: 'l', width: 120, height: 120 },
 ];
 
 let jumping = false;
@@ -33,7 +32,7 @@ function addJumpListener() {
 }
 
 const obstacleElements = [
-    // document.querySelector('.plant')
+    // document.querySelector('.obstacle')
 ];
 
 let dangerZone = false;
@@ -118,7 +117,7 @@ function getRandomObstacleElement() {
     const obstacleElement = document.createElement('div');
     const obstacle = getRandomObstacle();
     obstacleElement.classList.add(obstacle.type);
-    obstacleElement.style.height = `${OBSTACLE_HEIGHT}px`;
+    obstacleElement.style.height = `${obstacle.height}px`;
     obstacleElement.style.width = `${obstacle.width}px`;
     return obstacleElement;
 }
@@ -146,7 +145,7 @@ function generateObstacles() {
 
 function main() {
     addJumpListener();
-    checkForCollision();
+    // checkForCollision();
     setHighScore(highscore);
     generateObstacles();
     countScore();
