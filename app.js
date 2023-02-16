@@ -1,5 +1,6 @@
 const playerElement = document.querySelector('.player');
-const scoreElement = document.querySelector('.score span');
+const scoreElement = document.querySelector('.score-card .score');
+const highScoreElement = document.querySelector('.score-card .high-score');
 
 let jumping = false;
 let score = 0;
@@ -18,14 +19,6 @@ function addJumpListener() {
                 playerElement.classList.remove('jump');
             }, 1000);
 
-            setTimeout(() => {
-                // check for score
-                if(dangerZone && jumping) {
-                    score++;
-                    // console.log('yayyyy')
-                    scoreElement.innerText = score;
-                }
-            }, 500);
         }
     })
 }
@@ -53,17 +46,30 @@ function isCollision() {
     if(dangerZone && yCollision) {
         console.log('Dead!!!!!');
         alert('Dead! Click OK to restart');
+        checkForHighScore();
         restart();
         // stopGame();
     }
 }
-
 
 let interval;
 function checkForCollision() {
     interval = setInterval(() => {
         isCollision();
     }, 10);
+}
+
+let highscore = localStorage.getItem('highscore');
+function setHighScore(newScore) {
+    highscore = newScore;
+    highScoreElement.innerText = newScore;
+    localStorage.setItem('highscore', newScore);
+}
+
+function checkForHighScore() {
+    if(score > highscore) {
+        setHighScore(score);
+    }
 }
 
 function stopGame() {
@@ -75,12 +81,25 @@ function stopGame() {
 }
 
 function restart() {
-    score = scoreElement.innerText = 0;
+    setScore(0);
+}
+
+function setScore(newScore) {
+    scoreElement.innerText = score = newScore;
+}
+
+let scoreInterval;
+function countScore() {
+    scoreInterval = setInterval(() => {
+        setScore(score + 1);
+    }, 100);
 }
 
 function main() {
     addJumpListener();
     checkForCollision();
+    setHighScore(highscore);
+    countScore();
 }
 
 main();

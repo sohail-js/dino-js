@@ -27,7 +27,7 @@
     position: absolute;
     bottom: 0;
     /* left: 80%; */
-    animation: move 2s linear infinite;
+    animation: move 4s linear infinite;
 }
 
 @keyframes move {
