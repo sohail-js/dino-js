@@ -145,7 +145,7 @@ function generateObstacles() {
 
 function main() {
     addJumpListener();
-    // checkForCollision();
+    checkForCollision();
     setHighScore(highscore);
     generateObstacles();
     countScore();
