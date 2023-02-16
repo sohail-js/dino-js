@@ -1,6 +1,15 @@
 const playerElement = document.querySelector('.player');
 const scoreElement = document.querySelector('.score-card .score');
 const highScoreElement = document.querySelector('.score-card .high-score');
+const gameContainerElement = document.querySelector('.game-container');
+
+const OBSTACLE_HEIGHT = 50;
+const OBSTACLES = [
+    { type: 'plant', size: 'xs', width: 30 },
+    { type: 'plant', size: 's', width: 60 },
+    { type: 'plant', size: 'm', width: 90 },
+    { type: 'plant', size: 'l', width: 120 },
+];
 
 let jumping = false;
 let score = 0;
@@ -24,11 +33,15 @@ function addJumpListener() {
 }
 
 const obstacleElements = [
-    document.querySelector('.plant')
+    // document.querySelector('.plant')
 ];
 
 let dangerZone = false;
 function isCollision() {
+    if(!obstacleElements.length) {
+        return;
+    }
+
     const playerClientRect = playerElement.getBoundingClientRect();
     const playerL = playerClientRect.left;
     const playerR = playerClientRect.right;
@@ -81,7 +94,7 @@ function stopGame() {
 }
 
 function restart() {
-    setScore(0);
+    location.reload();
 }
 
 function setScore(newScore) {
@@ -95,10 +108,47 @@ function countScore() {
     }, 100);
 }
 
+function getRandomObstacle() {
+    const index = Math.floor(Math.random() * (OBSTACLES.length - 1));
+    console.log(index);
+    return OBSTACLES[index];
+}
+
+function getRandomObstacleElement() {
+    const obstacleElement = document.createElement('div');
+    const obstacle = getRandomObstacle();
+    obstacleElement.classList.add(obstacle.type);
+    obstacleElement.style.height = `${OBSTACLE_HEIGHT}px`;
+    obstacleElement.style.width = `${obstacle.width}px`;
+    return obstacleElement;
+}
+
+function appendObstacle(obstacleElement) {
+    gameContainerElement.append(obstacleElement);
+    obstacleElements.push(obstacleElement)
+}
+
+function shiftObstacle() {
+    const obstacleElement = obstacleElements.shift();
+    obstacleElement.parentElement.removeChild(obstacleElement);
+}
+
+function generateObstacles() {
+    setInterval(() => {
+        const obstacleElement = getRandomObstacleElement();
+        appendObstacle(obstacleElement);
+
+        setTimeout(() => {
+            shiftObstacle();
+        }, 5000)
+    }, 2000)
+}
+
 function main() {
     addJumpListener();
     checkForCollision();
     setHighScore(highscore);
+    generateObstacles();
     countScore();
 }
 
