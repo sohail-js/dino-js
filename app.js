@@ -22,9 +22,11 @@ function addJumpListener() {
                 // }
             jumping = true;
             playerElement.classList.add('jump');
+            pausePlayer();
             setTimeout(() => {
                 jumping = false;
                 playerElement.classList.remove('jump');
+                resumePlayer();
             }, 1000);
 
         }
@@ -57,11 +59,21 @@ function isCollision() {
 
     if(dangerZone && yCollision) {
         console.log('Dead!!!!!');
-        alert('Dead! Click OK to restart');
+        stopGame();
         checkForHighScore();
-        restart();
-        // stopGame();
+        // setTimeout(() => {
+        //     // alert('Dead! Click OK to restart');
+        //     restart();
+        // }, 1000);
     }
+}
+
+function pausePlayer() {
+    playerElement.classList.add('pause');
+}
+
+function resumePlayer() {
+    playerElement.classList.remove('pause');
 }
 
 let interval;
@@ -85,10 +97,14 @@ function checkForHighScore() {
 }
 
 function stopGame() {
+    pausePlayer();
+    gameContainerElement.classList.add('stop');
+
     clearInterval(interval);
-    // stop moving obstacles
-    obstacleElements.forEach(ele => {
-        ele.classList.remove('animate');
+    clearInterval(scoreInterval);
+    clearInterval(generateObstaclesInterval);
+    hideObstacleTimeout.forEach(timeout => {
+        clearTimeout(timeout);
     })
 }
 
@@ -132,15 +148,19 @@ function shiftObstacle() {
     obstacleElement.parentElement.removeChild(obstacleElement);
 }
 
+let generateObstaclesInterval;
+let hideObstacleTimeout = [];
 function generateObstacles() {
-    setInterval(() => {
+    generateObstaclesInterval = setInterval(() => {
         const obstacleElement = getRandomObstacleElement();
         appendObstacle(obstacleElement);
 
-        setTimeout(() => {
+        hideObstacleTimeout.push(setTimeout(() => {
+            hideObstacleTimeout.shift();
             shiftObstacle();
-        }, 5000)
-    }, 2000)
+        }, 5000));
+        // console.log(hideObstacleTimeout)
+    }, 2000);
 }
 
 function main() {

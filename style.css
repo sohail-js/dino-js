@@ -38,6 +38,10 @@
     background-position: bottom;
 }
 
+.player.pause {
+    background-image: url('./assets/dino.png') !important;
+}
+
 .player.jump {
     animation: jump 2s none;
 }
@@ -52,6 +56,10 @@
     animation: move 5s linear infinite;
     background-image: url('./assets/obstacle.png');
     background-size: contain;
+}
+
+.stop.game-container, .stop .obstacle {
+    animation-play-state: paused;
 }
 
 @keyframes move {
