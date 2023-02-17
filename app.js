@@ -2,6 +2,7 @@ const playerElement = document.querySelector('.player');
 const scoreElement = document.querySelector('.score-card .score');
 const highScoreElement = document.querySelector('.score-card .high-score');
 const gameContainerElement = document.querySelector('.game-container');
+const restartGameElement = document.querySelector('.restart-game');
 
 const OBSTACLES = [
     { type: 'obstacle', size: 'xs', width: 30, height: 70 },
@@ -105,7 +106,9 @@ function stopGame() {
     clearInterval(generateObstaclesInterval);
     hideObstacleTimeout.forEach(timeout => {
         clearTimeout(timeout);
-    })
+    });
+
+    restartGameElement.classList.add('show');
 }
 
 function restart() {

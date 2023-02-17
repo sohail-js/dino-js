@@ -13,7 +13,7 @@ Most famous chrome's offline dino game
 [x] Random obstacles generator (random width)  
 [x] Cool styles (sky, dino, obstacles, scores)  
 [x] Pause game when dead
-[ ] Restart button when dead
+[x] Restart button when dead
 
 #### Priority - 2
 [ ] Birds  
