@@ -28,7 +28,45 @@
         </div>
         <!-- <div class="obstacle"></div> -->
     </div>
+    <div class="footer">
+        <span class="credit">
+            Developed By: <b><a target="_blank" href="https://linkedin.com/in/sohail-js">JavaScript With Sohail</a></b>
+        </span>
+
+        <span class="links">
+            <a target="_blank" href="https://youtube.com/@JavaScriptWithSohail">YouTube</a>
+            <span> | </span>
+            <a target="_blank" href="https://linkedin.com/in/sohail-js">LinkedIn</a>
+            <span> | </span>
+            <a target="_blank" href="https://github.com/sohail-js/dino-js">GitHub</a>
+            <span> | </span>
+            <a target="_blank" href="https://twitter.com/sohail_js">Twitter</a>
+        </span>
+    </div>
     
     <script defer src="./app.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyBFGFlY9jzffwpk4JIsPtrJoyRngkv2OvA",
+          authDomain: "dino-game-js.firebaseapp.com",
+          projectId: "dino-game-js",
+          storageBucket: "dino-game-js.appspot.com",
+          messagingSenderId: "12921905717",
+          appId: "1:12921905717:web:a742708a7e48403f0d077c",
+          measurementId: "G-C9BX2ZR1DW"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
 </body>
 </html>
