@@ -17,21 +17,21 @@ function addJumpListener() {
     document.addEventListener('keydown', event => {
         // console.log(event)
         if((event.key === ' ' || event.key === 'ArrowUp') && !jumping) {
-            console.log('jump');
-            // if(playerElement.classList.contains('jump')) {
-                //     playerElement.classList.remove('jump');
-                // }
-            jumping = true;
-            playerElement.classList.add('jump');
-            pausePlayer();
-            setTimeout(() => {
-                jumping = false;
-                playerElement.classList.remove('jump');
-                resumePlayer();
-            }, 1000);
-
+            jump();
         }
     })
+}
+
+function jump() {
+    console.log('jump');
+    jumping = true;
+    playerElement.classList.add('jump');
+    pausePlayer();
+    setTimeout(() => {
+        jumping = false;
+        playerElement.classList.remove('jump');
+        resumePlayer();
+    }, 1200);
 }
 
 const obstacleElements = [
@@ -39,6 +39,7 @@ const obstacleElements = [
 ];
 
 let dangerZone = false;
+const BUFFER = 50;
 function isCollision() {
     if(!obstacleElements.length) {
         return;
@@ -55,17 +56,14 @@ function isCollision() {
     const obstacleR = obstacleClientRect.right;
     const obstacleT = obstacleClientRect.top;
 
-    dangerZone = (obstacleL < playerR && obstacleR > playerL) || (obstacleR > playerL && obstacleR < playerR);
+    dangerZone = (obstacleR - BUFFER) > playerL && (obstacleL < playerR);
     const yCollision = playerB > obstacleT;
 
     if(dangerZone && yCollision) {
         console.log('Dead!!!!!');
+        // console.table({obstacleL, obstacleR, playerL, playerR})
         stopGame();
         checkForHighScore();
-        // setTimeout(() => {
-        //     // alert('Dead! Click OK to restart');
-        //     restart();
-        // }, 1000);
     }
 }
 
@@ -161,7 +159,7 @@ function generateObstacles() {
         hideObstacleTimeout.push(setTimeout(() => {
             hideObstacleTimeout.shift();
             shiftObstacle();
-        }, 5000));
+        }, 3000));
         // console.log(hideObstacleTimeout)
     }, 2000);
 }
