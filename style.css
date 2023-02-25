@@ -95,9 +95,8 @@
     margin: 20px;
 }
 
-.space {
-    display: inline-block;
-    width: 10px;
+.score-card span {
+    margin-right: 20px;
 }
 
 .restart-game {

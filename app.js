@@ -7,6 +7,9 @@ const restartGameElement = document.querySelector('.restart-game');
 
 const OBSTACLES_SIZES = ['xs','s','m','l'];
 
+/**
+ * JUMP
+ */
 let jumping = false;
 function addJumpListener() {
     document.addEventListener('keydown', event => {
@@ -29,6 +32,9 @@ function jump() {
     }, 1200);
 }
 
+/**
+ * COLLISION
+ */
 let interval;
 function monitorCollision() {
     interval = setInterval(() => {
@@ -59,6 +65,10 @@ function isCollision() {
         checkForHighScore();
     }
 }
+
+/**
+ * SCORE
+ */
 let score = 0;
 function setScore(newScore) {
     scoreElement.innerText = score = newScore;
@@ -84,6 +94,9 @@ function checkForHighScore() {
     }
 }
 
+/**
+ * PAUSE GAME
+ */
 function pausePlayer() {
     playerElement.classList.add('pause');
 }
@@ -106,6 +119,9 @@ function restart() {
     location.reload();
 }
 
+/**
+ * RANDOMISE OBSTACLE
+ */
 function getRandomObstacleSize() {
     const index = Math.floor(Math.random() * (OBSTACLES_SIZES.length - 1));
     console.log(index);
@@ -120,6 +136,9 @@ function randomiseObstacle() {
     }, 3000);
 }
 
+/**
+ * MAIN
+ */
 function main() {
     addJumpListener();
     monitorCollision();
