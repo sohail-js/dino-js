@@ -12,7 +12,6 @@ const OBSTACLES = [
 ];
 
 let jumping = false;
-let score = 0;
 function addJumpListener() {
     document.addEventListener('keydown', event => {
         // console.log(event)
@@ -34,11 +33,13 @@ function jump() {
     }, 1200);
 }
 
-const obstacleElements = [
-    // document.querySelector('.obstacle')
-];
+let interval;
+function monitorCollision() {
+    interval = setInterval(() => {
+        isCollision();
+    }, 10);
+}
 
-let dangerZone = false;
 const BUFFER = 50;
 function isCollision() {
     if(!obstacleElements.length) {
@@ -56,7 +57,7 @@ function isCollision() {
     const obstacleR = obstacleClientRect.right;
     const obstacleT = obstacleClientRect.top;
 
-    dangerZone = (obstacleR - BUFFER) > playerL && (obstacleL < playerR);
+    const dangerZone = (obstacleR - BUFFER) > playerL && (obstacleL < playerR);
     const yCollision = playerB > obstacleT;
 
     if(dangerZone && yCollision) {
@@ -66,20 +67,16 @@ function isCollision() {
         checkForHighScore();
     }
 }
-
-function pausePlayer() {
-    playerElement.classList.add('pause');
+let score = 0;
+function setScore(newScore) {
+    scoreElement.innerText = score = newScore;
 }
 
-function resumePlayer() {
-    playerElement.classList.remove('pause');
-}
-
-let interval;
-function checkForCollision() {
-    interval = setInterval(() => {
-        isCollision();
-    }, 10);
+let scoreInterval;
+function countScore() {
+    scoreInterval = setInterval(() => {
+        setScore(score + 1);
+    }, 100);
 }
 
 let highscore = localStorage.getItem('highscore');
@@ -93,6 +90,19 @@ function checkForHighScore() {
     if(score > highscore) {
         setHighScore(score);
     }
+}
+
+const obstacleElements = [
+    // document.querySelector('.obstacle')
+];
+
+
+function pausePlayer() {
+    playerElement.classList.add('pause');
+}
+
+function resumePlayer() {
+    playerElement.classList.remove('pause');
 }
 
 function stopGame() {
@@ -111,17 +121,6 @@ function stopGame() {
 
 function restart() {
     location.reload();
-}
-
-function setScore(newScore) {
-    scoreElement.innerText = score = newScore;
-}
-
-let scoreInterval;
-function countScore() {
-    scoreInterval = setInterval(() => {
-        setScore(score + 1);
-    }, 100);
 }
 
 function getRandomObstacle() {
@@ -166,7 +165,7 @@ function generateObstacles() {
 
 function main() {
     addJumpListener();
-    checkForCollision();
+    monitorCollision();
     setHighScore(highscore);
     generateObstacles();
     countScore();
