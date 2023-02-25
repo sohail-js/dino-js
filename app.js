@@ -1,15 +1,11 @@
 const playerElement = document.querySelector('.player');
+const obstacleElement = document.querySelector('.obstacle');
 const scoreElement = document.querySelector('.score-card .score');
 const highScoreElement = document.querySelector('.score-card .high-score');
 const gameContainerElement = document.querySelector('.game-container');
 const restartGameElement = document.querySelector('.restart-game');
 
-const OBSTACLES = [
-    { type: 'obstacle', size: 'xs', width: 30, height: 70 },
-    { type: 'obstacle', size: 's', width: 60, height: 80 },
-    { type: 'obstacle', size: 'm', width: 90, height: 90 },
-    { type: 'obstacle', size: 'l', width: 120, height: 120 },
-];
+const OBSTACLES_SIZES = ['xs','s','m','l'];
 
 let jumping = false;
 function addJumpListener() {
@@ -42,17 +38,13 @@ function monitorCollision() {
 
 const BUFFER = 50;
 function isCollision() {
-    if(!obstacleElements.length) {
-        return;
-    }
-
     const playerClientRect = playerElement.getBoundingClientRect();
     const playerL = playerClientRect.left;
     const playerR = playerClientRect.right;
     const playerB = playerClientRect.bottom;
     
     
-    const obstacleClientRect = obstacleElements[0].getBoundingClientRect();
+    const obstacleClientRect = obstacleElement.getBoundingClientRect();
     const obstacleL = obstacleClientRect.left;
     const obstacleR = obstacleClientRect.right;
     const obstacleT = obstacleClientRect.top;
@@ -92,11 +84,6 @@ function checkForHighScore() {
     }
 }
 
-const obstacleElements = [
-    // document.querySelector('.obstacle')
-];
-
-
 function pausePlayer() {
     playerElement.classList.add('pause');
 }
@@ -111,11 +98,7 @@ function stopGame() {
 
     clearInterval(interval);
     clearInterval(scoreInterval);
-    clearInterval(generateObstaclesInterval);
-    hideObstacleTimeout.forEach(timeout => {
-        clearTimeout(timeout);
-    });
-
+    clearInterval(changeObstacleInterval);
     restartGameElement.classList.add('show');
 }
 
@@ -123,51 +106,25 @@ function restart() {
     location.reload();
 }
 
-function getRandomObstacle() {
-    const index = Math.floor(Math.random() * (OBSTACLES.length - 1));
+function getRandomObstacleSize() {
+    const index = Math.floor(Math.random() * (OBSTACLES_SIZES.length - 1));
     console.log(index);
-    return OBSTACLES[index];
+    return OBSTACLES_SIZES[index];
 }
 
-function getRandomObstacleElement() {
-    const obstacleElement = document.createElement('div');
-    const obstacle = getRandomObstacle();
-    obstacleElement.classList.add(obstacle.type);
-    obstacleElement.style.height = `${obstacle.height}px`;
-    obstacleElement.style.width = `${obstacle.width}px`;
-    return obstacleElement;
-}
-
-function appendObstacle(obstacleElement) {
-    gameContainerElement.append(obstacleElement);
-    obstacleElements.push(obstacleElement)
-}
-
-function shiftObstacle() {
-    const obstacleElement = obstacleElements.shift();
-    obstacleElement.parentElement.removeChild(obstacleElement);
-}
-
-let generateObstaclesInterval;
-let hideObstacleTimeout = [];
-function generateObstacles() {
-    generateObstaclesInterval = setInterval(() => {
-        const obstacleElement = getRandomObstacleElement();
-        appendObstacle(obstacleElement);
-
-        hideObstacleTimeout.push(setTimeout(() => {
-            hideObstacleTimeout.shift();
-            shiftObstacle();
-        }, 3000));
-        // console.log(hideObstacleTimeout)
-    }, 2000);
+let changeObstacleInterval;
+function randomiseObstacle() {
+    changeObstacleInterval = setInterval(() => {
+        const obstacleSize = getRandomObstacleSize();
+        obstacleElement.className = `obstacle obstacle-${obstacleSize}`;
+    }, 3000);
 }
 
 function main() {
     addJumpListener();
     monitorCollision();
     setHighScore(highscore);
-    generateObstacles();
+    randomiseObstacle();
     countScore();
 }
 
