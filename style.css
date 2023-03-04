@@ -20,7 +20,7 @@
         background-position: 100%;
     }
     100% {
-        background-position: -51%;
+        background-position: -50%;
     }
 }
 
@@ -36,29 +36,44 @@
     background-position: bottom;
 }
 
-.player.pause {
-    background-image: url('./assets/dino.png') !important;
+.player.jump {
+    animation: jump 1.5s infinite;
+    background-image: url('./assets/dino.png');
 }
 
-.player.jump {
-    animation: jump 1.5s none;
+@keyframes jump {
+    0% {
+        bottom: 0;
+    }
+
+    25% {
+        bottom: 250px;
+    }
+    40% {
+        bottom: 250px;
+    }
+
+    100% {
+        bottom: 0;
+    }
 }
 
 .obstacle {
-    /* width: 60px;
-    height: 40px; */
-    /* border: 1px solid red; */
+    width: 60px;
+    height: 120px;
     position: absolute;
     bottom: 0;
-    /* left: 80%; */
+    left: 80%;
+    /* border: 1px solid red; */
     animation: move 3s linear infinite;
     background-image: url('./assets/obstacle.png');
     background-size: contain;
 }
 
-.stop.game-container, .stop .obstacle {
-    animation-play-state: paused;
-}
+.obstacle-xs { width: 30px; height: 70px; }
+.obstacle-s { width: 60px; height: 80px; }
+.obstacle-m { width: 90px; height: 90px; }
+.obstacle-l { width: 120px; height: 120px; }
 
 @keyframes move {
     0% {
@@ -69,21 +84,6 @@
     }
 }
 
-@keyframes jump {
-    0% {
-        bottom: 0;
-    }
-    25% {
-        bottom: 250px;
-    }
-    40% {
-        bottom: 250px;
-    }
-    100% {
-        bottom: 0;
-    }
-}
-
 .score-card {
     color: #fff;
     font-family: Minecraft;
@@ -91,9 +91,8 @@
     margin: 20px;
 }
 
-.space {
-    display: inline-block;
-    width: 10px;
+.score-card span {
+    margin-right: 20px;
 }
 
 .restart-game {
@@ -120,7 +119,7 @@
     display: flex;
 }
 
-.restart-game .btn-reset-game{
+.restart-game .btn-reset-game {
     border: none;
     display: inline-block;
     width: 50px;
@@ -140,4 +139,12 @@
     display: flex;
     justify-content: space-between;
     margin: 0px auto;
+}
+
+.stop.game-container, .stop .obstacle {
+    animation-play-state: paused;
+}
+
+.stop .player {
+    background-image: url('./assets/dino.png');
 }
