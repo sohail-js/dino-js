@@ -35,10 +35,13 @@ function jump() {
 /**
  * COLLISION
  */
-let interval;
+let collisionInterval;
 function monitorCollision() {
-    interval = setInterval(() => {
-        isCollision();
+    collisionInterval = setInterval(() => {
+        if(isCollision()) {
+            stopGame();
+            checkForHighScore();
+        }
     }, 10);
 }
 
@@ -55,15 +58,10 @@ function isCollision() {
     const obstacleR = obstacleClientRect.right;
     const obstacleT = obstacleClientRect.top;
 
-    const dangerZone = (obstacleR - BUFFER) > playerL && (obstacleL < playerR);
+    const xCollision = (obstacleR - BUFFER) > playerL && obstacleL < playerR;
     const yCollision = playerB > obstacleT;
 
-    if(dangerZone && yCollision) {
-        console.log('Dead!!!!!');
-        // console.table({obstacleL, obstacleR, playerL, playerR})
-        stopGame();
-        checkForHighScore();
-    }
+    return xCollision && yCollision;
 }
 
 /**
@@ -109,7 +107,7 @@ function stopGame() {
     pausePlayer();
     gameContainerElement.classList.add('stop');
 
-    clearInterval(interval);
+    clearInterval(collisionInterval);
     clearInterval(scoreInterval);
     clearInterval(changeObstacleInterval);
     restartGameElement.classList.add('show');
