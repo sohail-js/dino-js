@@ -1,5 +1,5 @@
 # dino-js
-Most famous chrome's offline dino game in JavaScript
+Google Chrome's famous offline dino game in JavaScript
 
 ### Demo: https://dino-game-js.web.app
-### Youtube Tutorial: <INSERT_LINK_HERE>
+### Youtube Tutorial: https://youtu.be/tkpK3fKocDo
